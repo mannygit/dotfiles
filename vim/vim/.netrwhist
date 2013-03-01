@@ -1,0 +1,11 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =9
+let g:netrw_dirhist_1='/home/james/.vim'
+let g:netrw_dirhist_2='/usr/lib/pymodules/python2.6/daemon'
+let g:netrw_dirhist_3='/usr/lib/python2.6/wsgiref'
+let g:netrw_dirhist_4='/home/james/lib/libspotify-Linux-i686-release/share/doc/libspotify/examples/spshell'
+let g:netrw_dirhist_5='/home/james/dev/cython/Cython/Includes'
+let g:netrw_dirhist_6='/home/james/hvf/hvf-ops/chef-repo/cookbooks/hvf-general'
+let g:netrw_dirhist_7='/home/james/hvf/hvf-ops/chef-repo/cookbooks/hvf-general/recipes'
+let g:netrw_dirhist_8='/home/james/hvf/hvf-ops/chef-repo/cookbooks/percona/attributes'
+let g:netrw_dirhist_9='/home/james/hvf/hvf-ops/chef-repo/cookbooks/hvf-general'
