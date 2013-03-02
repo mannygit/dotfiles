@@ -173,3 +173,6 @@ PS1="\[${BOLD}${CYAN}\]\u \[$BASE0\]at \[$CYAN\]\h \[$BASE0\]in \[$BLUE\]\w\[$BA
 
 
 eval `dircolors ~/.dir_colors/solarized.dark`
+
+source ~/.bash_hidden
+export ENV_NAME="dev"

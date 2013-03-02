@@ -160,6 +160,8 @@ set gdefault
 " hide mouse on search
 set mousehide 
 
+set mouse=a
+
 " Colors **********************************************************************
 syntax on
 set background=dark
@@ -169,6 +171,7 @@ if has("gui_running")
 "    let moria_style = 'black'
 "    colo moria
 "    set lines=73 columns=260
+    colorscheme solarized
 else
 "    colorscheme tango
 "     colorscheme xoria256
@@ -176,6 +179,7 @@ else
 "     colorscheme molokai
 "    colorscheme desert256
 "    colorscheme railscasts
+    colorscheme solarized
 endif
 
 " Omni Completion *************************************************************
@@ -531,3 +535,9 @@ let g:netrw_special_syntax    = 1
 "highlight RedundantWhitespace ctermbg=red guibg=red
 "match RedundantWhitespace /\s\+$\| \+\ze\t/
 set lcs=tab:»»,trail:·,eol:·
+
+let g:syntastic_python_checkers = ['flake8']
+let g:syntastic_echo_current_error=1
+let g:syntastic_stl_format = '[%E{Err: %fe #%e}%B{, }%W{Warn: %fw #%w}]'
+
+let g:syntastic_python_flake8_post_args="--ignore=E221,E501,E251,E203,W291,W293,E231,E123,E702,E241,E127,E302,E272,E126,E261,E128,E122,E202,W391,E262,E225,E124,E303,E301"

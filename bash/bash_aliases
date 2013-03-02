@@ -1,0 +1,3 @@
+alias zuul="ssh -A zuul.hvflabs.com"
+alias home="pushd ~"
+alias affirm="pushd ~/dev/expedite2/src"
