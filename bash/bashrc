@@ -176,3 +176,4 @@ eval `dircolors ~/.dir_colors/solarized.dark`
 
 source ~/.bash_hidden
 export ENV_NAME="dev"
+export TERM="xterm-256color"

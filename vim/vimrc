@@ -29,6 +29,8 @@ set t_Co=256
 " highlight
 set viminfo=/50,'50,h
 
+set tags=~/mytags
+
 " Custom status line
 set statusline=   " clear the statusline for when vimrc is reloaded
 set statusline+=%f\                          " file name
