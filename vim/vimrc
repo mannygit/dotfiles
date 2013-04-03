@@ -285,6 +285,8 @@ set ttyfast
 " ttyscroll: redraw instead of scrolling
 "set ttyscroll=0
 
+au BufWritePost *.py silent! !ctags -R -o ~/mytags /home/manny/dev/expedite2/src/ 2> /dev/null &
+
 " -----------------------------------------------------------------------------
 " | Aliases and custom key functions                                          |
 " -----------------------------------------------------------------------------
@@ -313,6 +315,9 @@ ounmap <Esc>[Z
 " [<Ctrl>+N by default is like j, and <Ctrl>+P like k.]
 nnoremap <C-N> :bn<CR>
 nnoremap <C-P> :bp<CR>
+
+nnoremap <A-[> :bp<CR>
+nnoremap <A-]> :bn<CR>
 
 " swap windows
 nmap , <C-w><C-w>
@@ -543,3 +548,7 @@ let g:syntastic_echo_current_error=1
 let g:syntastic_stl_format = '[%E{Err: %fe #%e}%B{, }%W{Warn: %fw #%w}]'
 
 let g:syntastic_python_flake8_post_args="--ignore=E221,E501,E251,E203,W291,W293,E231,E123,E702,E241,E127,E302,E272,E126,E261,E128,E122,E202,W391,E262,E225,E124,E303,E301"
+
+
+let api_doc_project = {'path': '/home/manny/dev/expedite2/doct/merchant-integration-v2',}
+let g:riv_projects = [api_doc_project]

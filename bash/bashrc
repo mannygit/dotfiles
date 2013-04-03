@@ -177,3 +177,8 @@ eval `dircolors ~/.dir_colors/solarized.dark`
 source ~/.bash_hidden
 export ENV_NAME="dev"
 export TERM="xterm-256color"
+
+sir-logsalot() {
+    GIT_ROOT=~/dev/expedite2
+        tail -qf $GIT_ROOT/../logs/gun0*/expedite.log | python $GIT_ROOT/src/db/analysis/sir-logsalot.py
+    }

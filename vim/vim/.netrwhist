@@ -1,3 +1,7 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =1
+let g:netrw_dirhist_cnt =5
 let g:netrw_dirhist_1='/home/manny/dev/expedite2/src/common'
+let g:netrw_dirhist_2='/home/manny/python-social-auth/social/storage'
+let g:netrw_dirhist_3='/home/manny/dev/expedite2/src/charlotte'
+let g:netrw_dirhist_4='/home/manny/hvf-ops/chef-repo/cookbooks/hvf-server/templates/default/deploy.sh'
+let g:netrw_dirhist_5='/home/manny/dev/expedite2/doc/birkenfeld-sphinx-contrib-b817f6162504/context'

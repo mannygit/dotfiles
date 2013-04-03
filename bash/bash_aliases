@@ -1,3 +1,4 @@
 alias zuul="ssh -A zuul.hvflabs.com"
 alias home="pushd ~"
 alias affirm="pushd ~/dev/expedite2/src"
+alias clobber="affirm;cd ..;make clobber;find -name "*.un~" | xargs rm;popd"
