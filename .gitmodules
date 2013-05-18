@@ -13,3 +13,6 @@
 [submodule "vim/vim/bundle/python"]
 	path = vim/vim/bundle/python
 	url = git://github.com/vim-scripts/python.vim--Vasiliev.git
+[submodule "vim/vim/bundle/colors-solarized"]
+	path = vim/vim/bundle/colors-solarized
+	url = git://github.com/altercation/vim-colors-solarized.git
