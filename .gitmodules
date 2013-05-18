@@ -16,3 +16,9 @@
 [submodule "vim/vim/bundle/colors-solarized"]
 	path = vim/vim/bundle/colors-solarized
 	url = git://github.com/altercation/vim-colors-solarized.git
+[submodule "vim/vim/bundle/ropevim"]
+	path = vim/vim/bundle/ropevim
+	url = https://github.com/sontek/rope-vim.git
+[submodule "vim/vim/bundle/nerdtree"]
+	path = vim/vim/bundle/nerdtree
+	url = https://github.com/vim-scripts/The-NERD-tree.git
