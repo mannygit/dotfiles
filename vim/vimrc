@@ -24,6 +24,10 @@ behave xterm
 "    set t_te= [?47l 8
 "endif
 
+
+" JEDI
+let g:jedi#use_tabs_not_buffers = 0
+
 set t_Co=256
 
 " General *********************************************************************

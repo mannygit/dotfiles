@@ -22,3 +22,9 @@
 [submodule "vim/vim/bundle/nerdtree"]
 	path = vim/vim/bundle/nerdtree
 	url = https://github.com/vim-scripts/The-NERD-tree.git
+[submodule "vim/vim/bundle/jedi"]
+	path = vim/vim/bundle/jedi
+	url = git://github.com/davidhalter/jedi-vim.git
+[submodule "vim/vim/bundle/supertab"]
+	path = vim/vim/bundle/supertab
+	url = git://github.com/ervandew/supertab.git
