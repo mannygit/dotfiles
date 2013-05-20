@@ -28,3 +28,9 @@
 [submodule "vim/vim/bundle/supertab"]
 	path = vim/vim/bundle/supertab
 	url = git://github.com/ervandew/supertab.git
+[submodule "vim/vim/bundle/AsycCommand"]
+	path = vim/vim/bundle/AsycCommand
+	url = git://github.com/pydave/AsyncCommand.git
+[submodule "vim/vim/bundle/red-green"]
+	path = vim/vim/bundle/red-green
+	url = git://github.com/jimf/vim-red-green.git
