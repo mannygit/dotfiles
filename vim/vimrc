@@ -6,10 +6,21 @@
 " -----------------------------------------------------------------------------
 " | VIM Settings                                                              |
 " -----------------------------------------------------------------------------
+
+filetype off
+call pathogen#infect()
+filetype plugin indent on
 set nocompatible
-execute pathogen#infect()
 call pathogen#helptags()
 
+" Time out on key codes but not mappings.
+" Basically this makes terminal Vim work sanely.
+set notimeout
+set ttimeout
+set ttimeoutlen=10
+
+" Make Vim able to edit crontab files again.
+set backupskip=/tmp/*,/private/tmp/*"
 
 " first clear any existing autocommands:
 autocmd!
@@ -20,10 +31,22 @@ behave xterm
 "    let &term = "xtermc"
 "
 "    set rs
-"    set t_ti= 7 [r [?47h 
+"    set t_ti= 7 [r [?47h
 "    set t_te= [?47l 8
 "endif
 
+" Heresy
+inoremap <c-a> <esc>I
+inoremap <c-e> <esc>A
+cnoremap <c-a> <home>
+cnoremap <c-e> <end>
+
+nnoremap <c-]> <c-]>mzzvzz15<c-e>`z:Pulse<cr>
+nnoremap <c-\> <c-w>v<c-]>mzzMzvzz15<c-e>`z:Pulse<cr>
+
+" gi already moves to "last place you exited insert mode", so we'll map gI to
+" something similar: move to last change
+nnoremap gI `.
 
 " JEDI
 let g:jedi#use_tabs_not_buffers = 0
@@ -37,19 +60,19 @@ set viminfo=/50,'50,h
 
 set tags=~/mytags
 
-" Custom status line
-set statusline=   " clear the statusline for when vimrc is reloaded
-set statusline+=%f\                          " file name
-set statusline+=%h%m%r%w                     " flags
-set statusline+=[%{strlen(&ft)?&ft:'none'},  " filetype
-set statusline+=%{strlen(&fenc)?&fenc:&enc}, " encoding
-set statusline+=%{&fileformat}]              " file format
-set statusline+=%{fugitive#statusline()} "git branch
-set statusline+=%=      "left/right separator
-" set statusline+=%{synIDattr(synID(line('.'),col('.'),1),'name')}\  " highlight
-set statusline+=%b,0x%-8B\      " current char
-set statusline+=%c,%l/ "cursor column/total lines
-set statusline+=%L\ %P "total lines/percentage in file
+"   " Custom status line
+"   set statusline=   " clear the statusline for when vimrc is reloaded
+"   set statusline+=%f\                          " file name
+"   set statusline+=%h%m%r%w                     " flags
+"   set statusline+=[%{strlen(&ft)?&ft:'none'},  " filetype
+"   set statusline+=%{strlen(&fenc)?&fenc:&enc}, " encoding
+"   set statusline+=%{&fileformat}]              " file format
+"   set statusline+=%{fugitive#statusline()} "git branch
+"   set statusline+=%=      "left/right separator
+"   " set statusline+=%{synIDattr(synID(line('.'),col('.'),1),'name')}\  " highlight
+"   set statusline+=%b,0x%-8B\      " current char
+"   set statusline+=%c,%l/ "cursor column/total lines
+"   " set statusline+=%L\ %P "total lines/percentage in file
 
 " this allows you to have multiple files open at once and change between them
 " without saving
@@ -57,32 +80,27 @@ set hidden
 "make backspace work
 set backspace=indent,eol,start
 " Show line numbers
-set number 
+set number
 " Show matching brackets.
-set showmatch              
+set showmatch
 " have % bounce between angled brackets, as well as t'other kinds:
 set matchpairs+=<:>
 set comments=s1:/*,mb:*,ex:*/,f://,b:#,:%,:XCOMM,n:>,fb:-
 " This being the 21st century, I use Unicode
-set encoding=utf-8         
-" Don't keep a backup file
-set nobackup               
+set encoding=utf-8
 " keep 100 lines of command line history
-set history=100            
+set history=1000
 " Automatically save before commands like :next and :make
-set autowrite              
-" report: show a report when N lines were changed. 0 means 'all' 
-set report=0               
+set autowrite
+" report: show a report when N lines were changed. 0 means 'all'
+set report=0
 " runtimepath: list of dirs to search for runtime files
-set runtimepath+=~/.vim    
+set runtimepath+=~/.vim
 " Like File Explorer, preview window height is 8
-set previewheight=8        
+set previewheight=8
 " always show status line
-set ls=2            
+set ls=2
 "
-" when using list, keep tabs at their full width and display `arrows':
-" (Character 187 is a right double-chevron, and 183 a mid-dot.)
-execute 'set listchars+=tab:' . nr2char(187) . nr2char(183)
 "check if file is written to elsewhere and ask to reload immediately, not when
 "saving
 au CursorHold * checktime
@@ -95,7 +113,7 @@ function! Tabstyle_tabs()
   set tabstop=4
   set noexpandtab
 endfunction
- 
+
 function! Tabstyle_spaces()
   " Use 4 spaces
   set softtabstop=4
@@ -107,7 +125,7 @@ endfunction
 exec Tabstyle_spaces()
 
 " Tabs should be converted to a group of 4 spaces.
-" indent length with < > 
+" indent length with < >
 " JRM got rid of all this not sure why its in here.
 "set shiftwidth=4
 "set tabstop=4
@@ -119,18 +137,18 @@ exec Tabstyle_spaces()
 " Scrollbars/Status ***********************************************************
 set sidescrolloff=2
 " top bottom scroll off
-set scrolloff=2 
+set scrolloff=2
 " set numberwidth=4
 " show in title bar
-"set title  
+"set title
 " show the cursor position all the time
-set ruler  
+set ruler
 " display the current mode and partially-typed commands in the status line:
 set showmode
 set showcmd
 
 " Bash tab style completion is awesome
-set wildmode=longest,list  
+set wildmode=longest,list
 " wildchar-the char used for "expansion" on the command line default value is
 " "<C-E>" but I prefer the tab key:
 set wildchar=<TAB>
@@ -138,7 +156,7 @@ set wildchar=<TAB>
 set wildignore=*~,#*#,*.sw?,*.o,*.obj,*.bak,*.exe,*.pyc,*.DS_Store,*.db,*.class,*.java.html,*.cgi.html,*.html.html,.viminfo,*.pdf
 
 " shortmess: shorten messages where possible, especially to stop annoying
-" 'already open' messages!  
+" 'already open' messages!
 " set shortmess=atIAr
 set shortmess=flnrxoOItTA
 
@@ -146,8 +164,8 @@ set shortmess=flnrxoOItTA
 set splitbelow splitright
 "
 " don't always keep windows at equal size (for minibufexplorer)
-set noequalalways       
- 
+set noequalalways
+
 "Vertical split then hop to new buffer
 ":noremap ,v :vsp^M^W^W<cr>
 ":noremap ,h :split^M^W^W<cr>
@@ -158,7 +176,7 @@ set cursorline
 
 " Searching *******************************************************************
 " highlight search
-set hlsearch 
+set hlsearch
 " make searches case-insensitive, unless they contain upper-case letters:
 set ignorecase
 set smartcase
@@ -167,11 +185,17 @@ set incsearch
 " assume the /g flag on :s substitutions to replace all matches in a line:
 set gdefault
 " hide mouse on search
-set mousehide 
+set mousehide
+
+nnoremap n nzzzv
+nnoremap N Nzzzv
 
 set mouse=a
 
-" Colors **********************************************************************
+" Colors {{{
+
+" Don't try to highlight lines longer than 800 characters.
+set synmaxcol=800
 syntax on
 set background=dark
 if has("gui_running")
@@ -191,8 +215,10 @@ else
     colorscheme solarized
 endif
 
+" }}}
+
 " Omni Completion *************************************************************
-" set ofu=syntaxcomplete#Complete 
+" set ofu=syntaxcomplete#Complete
 autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
 autocmd FileType python set omnifunc=pythoncomplete#Complete
 autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
@@ -208,7 +234,7 @@ inoremap <Nul> <C-x><C-o>
 "set nowrap
 set wrap
 " Wrap at word
-set linebreak 
+set linebreak
 
 " have the h and l cursor keys wrap between lines (like <Space> and <BkSpc> do
 " by default), and ~ covert case over line breaks; also have the cursor keys
@@ -228,7 +254,6 @@ set comments+=n::
 
 " File Stuff ******************************************************************
 " To show current filetype use: set filetype
-filetype plugin indent on
 
 " Filetypes (au = autocmd)
 au FileType helpfile set nonumber      " no line numbers when viewing help
@@ -239,7 +264,7 @@ au FileType helpfile nnoremap <buffer><bs> <c-T>   " Backspace to go back
 au FileType python set makeprg=python\ -c\ \"import\ py_compile,sys;\ sys.stderr=sys.stdout;\ py_compile.compile(r'%')\"
 
 " we couldn't care less about html
-au BufNewFile,BufRead *.html        setf xhtml 
+au BufNewFile,BufRead *.html        setf xhtml
 "Laszlo
 au BufNewFile,BufRead *.lzx         setf lzx
 au BufNewFile,BufRead *.module      setf php
@@ -286,9 +311,9 @@ endfunction
 
 " Redraw *********************************************************************
 " lazyredraw: do not update screen while executing macros
-"set lazyredraw 
-" ttyfast: are we using a fast terminal? Let's try it for a while. 
+set lazyredraw
 set ttyfast
+" ttyfast: are we using a fast terminal? Let's try it for a while.
 " ttyscroll: redraw instead of scrolling
 "set ttyscroll=0
 
@@ -317,7 +342,7 @@ map! <F1> <C-C><F1>
 "trick to fix shift-tab http://vim.wikia.com/wiki/Make_Shift-Tab_work
 map <Esc>[Z <s-tab>
 ounmap <Esc>[Z
-                
+
 " use <Ctrl>+N/<Ctrl>+P to cycle through files:
 " [<Ctrl>+N by default is like j, and <Ctrl>+P like k.]
 nnoremap <C-N> :bn<CR>
@@ -329,6 +354,16 @@ nnoremap <A-]> :bn<CR>
 " swap windows
 nmap , <C-w><C-w>
 
+"  " swap semicolon and colon... less chording on the colon and vim uses it
+"  " heavily so does python... might want to not do this for js
+"  nnoremap ; :
+"  vnoremap ; :
+"  inoremap ; :
+"  inoremap : ;
+
+" nnoremap : ;
+" vnoremap : ;
+
 "move around windows with ctrl key!
 map <C-H> <C-W>h
 map <C-J> <C-W>j
@@ -339,7 +374,7 @@ map <C-L> <C-W>l
 " Remap TAB to keyword completion
 function! InsertTabWrapper(direction)
   let col = col('.') - 1
-  if !col || strpart(getline('.'), col-1, col) =~ '\s'     
+  if !col || strpart(getline('.'), col-1, col) =~ '\s'
     return "\<tab>"
   elseif "forward" == a:direction
     return "\<c-n>"
@@ -387,7 +422,7 @@ vnoremap <S-Tab> <gv
 
 " insert new line without going into insert mode
 nnoremap - :put=''<CR>
-nnoremap + :put!=''<CR> 
+nnoremap + :put!=''<CR>
 
 " have Q reformat the current paragraph (or selected text if there is any):
 nnoremap Q gqap
@@ -419,7 +454,7 @@ function! ToggleWrap()
     echo "Wrap OFF"
     setlocal nowrap
     set virtualedit=all
-    silent! nunmap <buffer> k 
+    silent! nunmap <buffer> k
     silent! nunmap <buffer> j
     silent! nunmap <buffer> 0
     silent! nunmap <buffer> $
@@ -469,15 +504,18 @@ map \c :let @/ = ""<CR>
 " Revert the current buffer
 nnoremap \r :e!<CR>
 
+" Source
 "Easy edit of vimrc
 nmap \s :source $MYVIMRC<CR>
 nmap \v :e $MYVIMRC<CR>
+vnoremap <leader>S y:execute @@<cr>:echo 'Sourced selection.'<cr>
+nnoremap <leader>S ^vg_y:execute @@<cr>:echo 'Sourced line.'<cr>
 
 "show indent settings
 nmap \I :verbose set ai? cin? cink? cino? si? inde? indk? formatoptions?<CR>
 
 "replace all tabs with 4 spaces
-map \ft :%s/	/    /g<CR> 
+map \ft :%s/	/    /g<CR>
 
 "OSX only: Open a web-browser with the URL in the current line
 function! HandleURI()
@@ -502,18 +540,18 @@ imap <Leader>tt <Esc>:execute "normal i" . strftime("%x %X (%Z) ")<Esc>i
 "Taglist
 map \a :TlistToggle<CR>
 " Jump to taglist window on open.
-let Tlist_GainFocus_On_ToggleOpen = 1 
+let Tlist_GainFocus_On_ToggleOpen = 1
 let Tlist_Close_OnSelect=1
 " if you are the last window, kill yourself
-let Tlist_Exist_OnlyWindow = 1 
+let Tlist_Exist_OnlyWindow = 1
 " sort by order or name
-let Tlist_Sort_Type = "order" 
+let Tlist_Sort_Type = "order"
 " do not show prototypes and not tags in the taglist window.
-let Tlist_Display_Prototype = 0 
+let Tlist_Display_Prototype = 0
 " Remove extra information and blank lines from the taglist window.
-let Tlist_Compart_Format = 1 
+let Tlist_Compart_Format = 1
 " Show tag scope next to the tag name.
-let Tlist_Display_Tag_Scope = 1 
+let Tlist_Display_Tag_Scope = 1
 let Tlist_WinWidth = 40
 " Show only current file
 let Tlist_Show_One_File = 1
@@ -539,23 +577,151 @@ map <silent> \f :FuzzyFinderTextMate<CR>
 map <silent> \F :FuzzyFinderTextMateRefreshFiles<CR>:FuzzyFinderTextMate<CR>
 map <silent> \b :FuzzyFinderBuffer!<CR>
 
-"newrw
-let g:netrw_hide              = 1
-let g:netrw_list_hide         = '^\.svn.*'
-let g:netrw_menu              = 0
-let g:netrw_silent            = 1
-let g:netrw_special_syntax    = 1
-
-"highlight RedundantWhitespace ctermbg=red guibg=red
-"match RedundantWhitespace /\s\+$\| \+\ze\t/
-set lcs=tab:»»,trail:·,eol:·
 
 let g:syntastic_python_checkers = ['flake8']
+let g:syntastic_check_on_open = 1
 let g:syntastic_echo_current_error=1
 let g:syntastic_stl_format = '[%E{Err: %fe #%e}%B{, }%W{Warn: %fw #%w}]'
 
 let g:syntastic_python_flake8_post_args="--ignore=E221,E501,E251,E203,W291,W293,E231,E123,E702,E241,E127,E302,E272,E126,E261,E128,E122,E202,W391,E262,E225,E124,E303,E301"
 
+" backups, undo {{{
 
-let api_doc_project = {'path': '/home/manny/dev/expedite2/doct/merchant-integration-v2',}
-let g:riv_projects = [api_doc_project]
+set backup                        " enable backups
+set noswapfile                    " it's 2013, Vim.
+
+set undodir=~/.vim/tmp/undo//     " undo files
+set backupdir=~/.vim/tmp/backup// " backups
+set directory=~/.vim/tmp/swap//   " swap files
+
+" Make those folders automatically if they don't already exist.
+if !isdirectory(expand(&undodir))
+    call mkdir(expand(&undodir), "p")
+endif
+if !isdirectory(expand(&backupdir))
+    call mkdir(expand(&backupdir), "p")
+endif
+if !isdirectory(expand(&directory))
+    call mkdir(expand(&directory), "p")
+endif
+
+" }}}
+
+" whitepsace {{{
+
+" highlight RedundantWhitespace ctermbg=red guibg=red
+" match RedundantWhitespace /\s\+$\| \+\ze\t/
+"set lcs=tab:»»,trail:·,eol:·
+" when using list, keep tabs at their full width and display `arrows':
+" (Character 187 is a right double-chevron, and 183 a mid-dot.)
+" execute 'set listchars+=tab:' . nr2char(187) . nr2char(183)
+set list
+set listchars=tab:▸\ ,trail:·,eol:¬,extends:❯,precedes:❮
+
+augroup trailing
+    au!
+    au InsertEnter * :set listchars=
+    au InsertLeave * :set listchars=tab:▸\ ,trail:·,eol:¬,extends:❯,precedes:❮
+augroup END
+
+nnoremap <leader>w mz:%s/\s\+$//<cr>:let @/=''<cr>`z
+
+" }}}
+
+" let g:Powerline_symbols = 'fancy'
+let g:Powerline_cache_enabled = 1
+" let g:Powerline_colorscheme = 'badwolf'
+
+" Pulse Line {{{
+
+function! s:Pulse() " {{{
+    let current_window = winnr()
+    windo set nocursorline
+    execute current_window . 'wincmd w'
+    setlocal cursorline
+
+    redir => old_hi
+        silent execute 'hi CursorLine'
+    redir END
+    let old_hi = split(old_hi, '\n')[0]
+    let old_hi = substitute(old_hi, 'xxx', '', '')
+
+    let steps = 9
+    let width = 1
+    let start = width
+    let end = steps * width
+    let color = 233
+
+    for i in range(start, end, width)
+        execute "hi CursorLine ctermbg=" . (color + i)
+        redraw
+        sleep 6m
+    endfor
+    for i in range(end, start, -1 * width)
+        execute "hi CursorLine ctermbg=" . (color + i)
+        redraw
+        sleep 6m
+    endfor
+
+    execute 'hi ' . old_hi
+endfunction " }}}
+command! -nargs=0 Pulse call s:Pulse()
+
+" }}
+
+
+" Highlight Word {{{
+"
+" This mini-plugin provides a few mappings for highlighting words temporarily.
+"
+" Sometimes you're looking at a hairy piece of code and would like a certain
+" word or two to stand out temporarily.  You can search for it, but that only
+" gives you one color of highlighting.  Now you can use <leader>N where N is
+" a number from 1-6 to highlight the current word in a specific color.
+
+function! HiInterestingWord(n) " {{{
+    " Save our location.
+    normal! mz
+
+    " Yank the current word into the z register.
+    normal! "zyiw
+
+    " Calculate an arbitrary match ID.  Hopefully nothing else is using it.
+    let mid = 86750 + a:n
+
+    " Clear existing matches, but don't worry if they don't exist.
+    silent! call matchdelete(mid)
+
+    " Construct a literal pattern that has to match at boundaries.
+    let pat = '\V\<' . escape(@z, '\') . '\>'
+
+    " Actually match the words.
+    call matchadd("InterestingWord" . a:n, pat, 1, mid)
+
+    " Move back to our original location.
+    normal! `z
+endfunction " }}}
+
+" Mappings {{{
+
+nnoremap <silent> <leader>1 :call HiInterestingWord(1)<cr>
+nnoremap <silent> <leader>2 :call HiInterestingWord(2)<cr>
+nnoremap <silent> <leader>3 :call HiInterestingWord(3)<cr>
+nnoremap <silent> <leader>4 :call HiInterestingWord(4)<cr>
+nnoremap <silent> <leader>5 :call HiInterestingWord(5)<cr>
+nnoremap <silent> <leader>6 :call HiInterestingWord(6)<cr>
+
+" }}}
+" Default Highlights {{{
+
+hi def InterestingWord1 guifg=#000000 ctermfg=16 guibg=#ffa724 ctermbg=214
+hi def InterestingWord2 guifg=#000000 ctermfg=16 guibg=#aeee00 ctermbg=154
+hi def InterestingWord3 guifg=#000000 ctermfg=16 guibg=#8cffba ctermbg=121
+hi def InterestingWord4 guifg=#000000 ctermfg=16 guibg=#b88853 ctermbg=137
+hi def InterestingWord5 guifg=#000000 ctermfg=16 guibg=#ff9eb8 ctermbg=211
+hi def InterestingWord6 guifg=#000000 ctermfg=16 guibg=#ff2c4b ctermbg=195
+
+" }}}
+
+" }}}
+
