@@ -178,7 +178,40 @@ source ~/.bash_hidden
 export ENV_NAME="dev"
 export TERM="xterm-256color"
 
+
+remotegreptaillogs() {
+    # remote grep tailed logs. Grepping is done on remote server for efficiency
+    SERVER=$1
+    shift
+    ssh $SERVER "find /nail/logs/ -iname '*.log' | xargs tail -qF | grep $*"
+}
+
+remotegreplogs() {
+    # Greps remote logs. Grepping is done on remote server for efficiency
+    # First arg is server. e.g. stage-www0.expedite
+    # Rest args are passed to grep
+    SERVER=$1
+    shift
+    ssh $SERVER 'echo | gzip - | zcat `find /nail/logs/ -iname '*.log*.gz'` - | cat `find /nail/logs/ -iname '*.log'` - | grep '"$*"
+}
+
+multiline-json() {
+    python -c "
+import json, sys, pprint
+for line in sys.stdin:
+    try:
+        pprint.pprint(json.loads(line))
+        print
+    except:
+        pass
+"
+}
+
+GIT_ROOT=~/dev/expedite2
 sir-logsalot() {
-    GIT_ROOT=~/dev/expedite2
-        tail -qf $GIT_ROOT/../logs/gun0*/expedite.log | python $GIT_ROOT/src/db/analysis/sir-logsalot.py
-    }
+    term_title Sir Logsalot
+    trap handle_sigint_pass_to_subprocess SIGINT
+    python $GIT_ROOT/src/db/analysis/sir-logsalot.py
+    trap - SIGINT
+    default_term_title
+}
